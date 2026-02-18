@@ -15,6 +15,7 @@ const sections: Section[] = [
 
 const App: React.FC = () => {
   const [visibleItems, setVisibleItems] = useState<boolean[]>([false, false, false, false]);
+  const [navOpen, setNavOpen] = useState<boolean>(false);
   const timelineRef = useRef<HTMLDivElement | null>(null);
   const itemRefs = [
     useRef<HTMLDivElement | null>(null),
@@ -83,6 +84,7 @@ const App: React.FC = () => {
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+    setNavOpen(false);
   };
 
   return (
@@ -95,7 +97,18 @@ const App: React.FC = () => {
             <p>Software Engineer • AI Engineer • Entrepreneur</p>
           </div>
         </div>
-        <nav className="nav-links">
+        <button
+          type="button"
+          className={`nav-toggle ${navOpen ? 'nav-toggle-open' : ''}`}
+          onClick={() => setNavOpen((open) => !open)}
+          aria-label="Toggle navigation menu"
+          aria-expanded={navOpen}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+        <nav className={`nav-links ${navOpen ? 'nav-links-open' : ''}`}>
           {sections.map((s) => (
             <button key={s.id} onClick={() => scrollTo(s.id)}>
               {s.label}
